@@ -54,20 +54,42 @@ namespace xiaoshoudan
 	                 {
 	             	
 	             	label1 .Text =fileDialog .FileName ;
-	             		}
+	             		
+	             }
+	             if (AboutFile.isFileLocked (label1 .Text .Trim ()))
+	             {
+	             	MessageBox .Show ("请先关闭该文件");
+	             	label1 .Text ="";
+	             	return ;
+	             }
+		
 		}
 		
 		void Button2Click(object sender, EventArgs e)
 		{
-			string h = DateTime .Now .Hour .ToString ();
-			string m =DateTime .Now .Minute .ToString ();
-			string s = DateTime .Now .Second .ToString ();
-			string y = DateTime .Now .Year.ToString ();
-			string M = DateTime .Now .Month .ToString ();
-			string d = DateTime .Now .Day .ToString ();
-			string str = string.Format ("销售单_{0}年{1}月{2}日,{3}时{4}分{5}秒",y,M,d,h,m,s);
-			string str1 = @"c:\"+str;
-			Directory .CreateDirectory (str1);
+			 
+			if (label1 .Text .Trim () == "")
+			{
+				MessageBox .Show ("请先选择文件");
+				return ;
+			
+			}
+			
+			
+			string str1 = "";
+			FolderBrowserDialog folder = new FolderBrowserDialog ();
+			folder .Description ="选择要保存的文件夹";
+			if (folder .ShowDialog() == DialogResult.OK)
+			{
+				str1 =folder.SelectedPath ;
+			}
+			
+			if (Directory.GetDirectories(str1 + "\\").Length > 0 || Directory.GetFiles(str1+ "\\").Length > 0)
+			{
+				MessageBox .Show ("文件夹不为空，请选择一个空文件夹");
+				return;
+			}
+					
 			DataHelper helper =new DataHelper (label1 .Text.Trim () );
 	       helper.open ();
 	       string str2 = "select distinct name from [sheet1$]";
@@ -81,9 +103,9 @@ namespace xiaoshoudan
 	       	OleDbDataReader reader1= helper1.dataread (str3);
 	        	
 	       	HSSFWorkbook workbook =new HSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet("sheet1");
+	       	ISheet sheet = workbook.CreateSheet(reader[0].ToString ().Trim () );
 	      	
-	       sheet.SetColumnWidth(0,  (int)((4.83+0.78) *256));
+	       sheet.SetColumnWidth(0,  (int)((5.83+0.78) *256));
            sheet.SetColumnWidth(1,  (int)((55.75+0.78) *256));
            sheet.SetColumnWidth(2,  (int)((7.15+0.68) *256));
            sheet.SetColumnWidth(3,  (int)((13.83+0.78) *256));
@@ -254,14 +276,11 @@ namespace xiaoshoudan
            	    {cell34.SetCellValue(string.Format ("{0:#0.00}",yifukuan));}
            	    else
            	    {cell34.SetCellValue("");}
-           	   
-           	    
-           	    
            	    ICell cell35 = row9.CreateCell (5); cell35.CellStyle =style2;
            	    ICell cell36 = row9.CreateCell (6); cell36.CellStyle =style2;
            	    ICell cell37 = row9.CreateCell (7); cell37.CellStyle =style2;
            	    
-           	    FileStream fs = File.OpenWrite(str1+ "\\" +reader[0].ToString () + ".xls");
+           	    FileStream fs = File.OpenWrite(str1+ "\\" + reader[0].ToString ().Trim () + ".xls");
 		             workbook .Write(fs);
 		                fs.Close ();
            
@@ -272,7 +291,7 @@ namespace xiaoshoudan
 	       
 	       helper .close ();
 	       	
-	       	MessageBox .Show("已成功生成完毕,文件位于文件夹\n" + str + "\\" );
+	       	MessageBox .Show("已成功生成完毕,文件位于文件夹\n" + str1 + "\\" );
 	    }
 		
 		
