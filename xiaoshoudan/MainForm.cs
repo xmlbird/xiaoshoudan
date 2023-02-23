@@ -150,7 +150,7 @@ namespace xiaoshoudan
            int n=0; int sl = 0; decimal hj=0; decimal jizhang=0; decimal yifukuan= 0;
              while(reader1.Read ()){
            	IRow row2=sheet.CreateRow(n +2);
-           	row2.Height =16*20 ;
+           	row2.Height =21*20 ;
            	int a1 = 0; decimal  a2 = 0; decimal  a3 = 0;
            	
            	if (reader1[2].ToString ().Trim ()=="")
@@ -197,23 +197,23 @@ namespace xiaoshoudan
                   }
                 hj= jizhang + yifukuan ;
                 IRow row7=sheet.CreateRow(n +2);
-           	    row7.Height =16*20 ;
+           	    row7.Height =21*20 ;
            	    ICell cell10 = row7.CreateCell (0); cell10.CellStyle =style2;
-           	    ICell cell11 = row7.CreateCell (1);cell11.SetCellValue("合计");cell11.CellStyle =style2;
-           	    ICell cell12 = row7.CreateCell (2);cell12.SetCellValue(sl.ToString ()); cell12.CellStyle =style2;
+           	    ICell cell11 = row7.CreateCell (1);cell11.SetCellValue("合计");cell11.CellStyle =style1;
+           	    ICell cell12 = row7.CreateCell (2);cell12.SetCellValue(sl.ToString ()); cell12.CellStyle =style1;
            	    ICell cell13 = row7.CreateCell (3);cell13.CellStyle =style2;
-           	    ICell cell14 = row7.CreateCell (4);cell14.SetCellValue(hj.ToString ());cell14.CellStyle =style2;
+           	    ICell cell14 = row7.CreateCell (4);cell14.SetCellValue(hj.ToString ());cell14.CellStyle =style1;
            	    ICell cell15 = row7.CreateCell (5); cell15.CellStyle =style2;
            	    ICell cell16 = row7.CreateCell (6); cell16.CellStyle =style2;
            	    ICell cell17 = row7.CreateCell (7); cell17.CellStyle =style2;
            	    
            	    n++;
            	    IRow row8=sheet.CreateRow(n +2);
-           	    row7.Height =16*20 ;
+           	    row8.Height =21*20 ;
            	    ICell cell20 = row8.CreateCell (0); cell20.CellStyle =style2;
-           	    ICell cell21 = row8.CreateCell (1); cell21.CellStyle =style2;
+           	    ICell cell21 = row8.CreateCell (1); cell21.SetCellValue("其中:记  账");cell21.CellStyle =style2;
            	    ICell cell22 = row8.CreateCell (2); cell22.CellStyle =style2;
-           	    ICell cell23 = row8.CreateCell (3); cell23.SetCellValue("记账");cell23.CellStyle =style2;
+           	    ICell cell23 = row8.CreateCell (3); cell23.CellStyle =style2;
            	    ICell cell24 = row8.CreateCell (4); cell24.SetCellValue(jizhang.ToString ());cell24.CellStyle =style2;
            	    ICell cell25 = row8.CreateCell (5); cell25.CellStyle =style2;
            	    ICell cell26 = row8.CreateCell (6); cell26.CellStyle =style2;
@@ -222,11 +222,11 @@ namespace xiaoshoudan
            	    
                 n++;
            	    IRow row9=sheet.CreateRow(n +2);
-           	    row7.Height =16*20 ;
+           	    row8.Height =21*20 ;
            	    ICell cell30 = row9.CreateCell (0); cell30.CellStyle =style2;
-           	    ICell cell31 = row9.CreateCell (1); cell31.CellStyle =style2;
+           	    ICell cell31 = row9.CreateCell (1); cell31.SetCellValue("      已付款");cell31.CellStyle =style2;
            	    ICell cell32 = row9.CreateCell (2); cell32.CellStyle =style2;
-           	    ICell cell33 = row9.CreateCell (3); cell33.SetCellValue("已付款");cell33.CellStyle =style2;
+           	    ICell cell33 = row9.CreateCell (3); cell33.CellStyle =style2;
            	    ICell cell34 = row9.CreateCell (4); cell34.SetCellValue(yifukuan .ToString ());cell34.CellStyle =style2;
            	    ICell cell35 = row9.CreateCell (5); cell35.CellStyle =style2;
            	    ICell cell36 = row9.CreateCell (6); cell36.CellStyle =style2;
