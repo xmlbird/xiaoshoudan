@@ -82,21 +82,19 @@ namespace xiaoshoudan
 	        	
 	       	HSSFWorkbook workbook =new HSSFWorkbook();
             ISheet sheet = workbook.CreateSheet("sheet1");
-	       
-	       	
-	       sheet.SetColumnWidth(0,  (int)((17.25+0.68) *256));
+	      	
+	       sheet.SetColumnWidth(0,  (int)((4.83+0.78) *256));
            sheet.SetColumnWidth(1,  (int)((55.75+0.78) *256));
-           sheet.SetColumnWidth(2,  (int)((6.25+0.68) *256));
-           sheet.SetColumnWidth(3,  (int)((6.83+0.78) *256));
-           sheet.SetColumnWidth(4,  (int)((13.63+0.78) *256));
+           sheet.SetColumnWidth(2,  (int)((7.15+0.68) *256));
+           sheet.SetColumnWidth(3,  (int)((13.83+0.78) *256));
+           sheet.SetColumnWidth(4,  (int)((15.63+0.78) *256));
            sheet.SetColumnWidth(5,  (int)((13.88+0.78) *256));
            sheet.SetColumnWidth(6,  (int)((16.13+0.78) *256));
-           sheet.SetColumnWidth(7,  (int)((10.38+0.78) *256));   
+           sheet.SetColumnWidth(7,  (int)((13.38+0.78) *256));   
 	       	
 	       IRow row = sheet.CreateRow(0);
            ICell cell=row.CreateCell(0);	
-           
-            row.Height =51*20;
+            row.Height =41*20;
             cell.SetCellValue("销售单");
            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 7));
            ICellStyle style=workbook .CreateCellStyle ();
@@ -110,13 +108,12 @@ namespace xiaoshoudan
            row.GetCell(0).CellStyle =style ;
            
            
-           
-           
+                     
            ICellStyle style1=workbook.CreateCellStyle();
            style1.VerticalAlignment =VerticalAlignment .CENTER ;
            style1.Alignment = NPOI.SS.UserModel.HorizontalAlignment .CENTER ;
            IFont font1=workbook .CreateFont ();
-           font1.Boldweight =short .MaxValue ;
+           font1.Boldweight =short.MaxValue;
            font1.FontHeightInPoints =12;
            font1.FontName ="宋体";
            style1.BorderBottom = NPOI.SS.UserModel.BorderStyle.THIN;
@@ -124,22 +121,12 @@ namespace xiaoshoudan
            style1.BorderRight =NPOI.SS.UserModel.BorderStyle.THIN;
            style1.BorderTop =NPOI.SS.UserModel.BorderStyle.THIN;
            style1 .SetFont (font1);
-            
-             IRow row1 = sheet.CreateRow(1);
-           row1.Height =23*20;
-           string[] strarr={"姓名","内容","数量","单价","金额","是否付款","日期","备注"};
-           for(int i=0;i<=7;i++){
-           ICell cell1=row1.CreateCell(i);
-           cell1.SetCellValue(strarr[i]);
-           cell1.CellStyle =style1 ;      
-                                 }
            
            ICellStyle style2=workbook.CreateCellStyle();
            style2.VerticalAlignment =VerticalAlignment .CENTER ;
            style2.Alignment = NPOI.SS.UserModel.HorizontalAlignment .CENTER ;
            IFont font2=workbook .CreateFont ();
            font2.FontHeightInPoints =12;
-           
            font2.FontName ="宋体";
            style2.BorderBottom = NPOI.SS.UserModel.BorderStyle.THIN;
            style2.BorderLeft =NPOI.SS.UserModel.BorderStyle.THIN;
@@ -147,9 +134,37 @@ namespace xiaoshoudan
            style2.BorderTop =NPOI.SS.UserModel.BorderStyle.THIN;
            style2 .SetFont (font2);
            
+           
+           ICellStyle style3=workbook.CreateCellStyle();
+           style3.VerticalAlignment =VerticalAlignment.CENTER ;
+           style3.Alignment = NPOI.SS.UserModel.HorizontalAlignment.LEFT ;
+           IFont font3=workbook .CreateFont ();
+           font3.FontHeightInPoints =13;
+           font3.FontName ="黑体";
+           style3 .SetFont (font3);
+           
+           IRow kehu =sheet.CreateRow (1);
+           kehu.Height =23*20;
+           sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 7));
+           ICell cellname = kehu.CreateCell (0);
+           cellname .SetCellValue(" 客户姓名："+ reader[0]);
+           cellname .CellStyle =style3 ;
+           
+           
+           IRow row1 = sheet.CreateRow(2);
+           row1.Height =23*20;
+           string[] strarr={"序号","内容","数量","单价","金额","是否付款","日期","备注"};
+           for(int i=0;i<=7;i++){
+           ICell cell1=row1.CreateCell(i);
+           cell1.SetCellValue(strarr[i]);
+           cell1.CellStyle =style1 ;      
+                                 }
+           
+           
+           
            int n=0; int sl = 0; decimal hj=0; decimal jizhang=0; decimal yifukuan= 0;
-             while(reader1.Read ()){
-           	IRow row2=sheet.CreateRow(n +2);
+            while(reader1.Read ()){
+           	IRow row2=sheet.CreateRow(n + 3);
            	row2.Height =21*20 ;
            	int a1 = 0; decimal  a2 = 0; decimal  a3 = 0;
            	
@@ -175,11 +190,11 @@ namespace xiaoshoudan
            	
            	//将一条记录内容放入数组
                        string[] strarray=new string[8];
-                       strarray[0]=reader1[0].ToString ().Trim ();
+                       strarray[0]=(n+1).ToString ().Trim ();
                        strarray [1]=reader1[1].ToString ().Trim ();
                        strarray [2]=reader1[2].ToString ().Trim ();
-                       strarray [3]=reader1[3].ToString ().Trim ();
-                       strarray [4]=reader1[4].ToString().Trim ();
+                       strarray [3]=string.Format ("{0:#0.00}",reader1[3]);
+                       strarray [4]=string.Format ("{0:#0.00}",reader1[4]);
                        strarray [5]=reader1[5].ToString ().Trim ();
                        //string[] c=reader1[6].ToString ().Split (' ');
                        strarray [6]=String.Format("{0:yyyy-MM-dd}",reader1[6]);;
@@ -195,39 +210,53 @@ namespace xiaoshoudan
                   n++;
                  
                   }
-                hj= jizhang + yifukuan ;
-                IRow row7=sheet.CreateRow(n +2);
+                
+                 hj= jizhang + yifukuan ;
+                IRow row7=sheet.CreateRow(n +3);
            	    row7.Height =21*20 ;
            	    ICell cell10 = row7.CreateCell (0); cell10.CellStyle =style2;
            	    ICell cell11 = row7.CreateCell (1);cell11.SetCellValue("合计");cell11.CellStyle =style1;
            	    ICell cell12 = row7.CreateCell (2);cell12.SetCellValue(sl.ToString ()); cell12.CellStyle =style1;
            	    ICell cell13 = row7.CreateCell (3);cell13.CellStyle =style2;
-           	    ICell cell14 = row7.CreateCell (4);cell14.SetCellValue(hj.ToString ());cell14.CellStyle =style1;
+           	    ICell cell14 = row7.CreateCell (4);cell14.SetCellValue(string.Format ("{0:#0.00}",hj));cell14.CellStyle =style1;
            	    ICell cell15 = row7.CreateCell (5); cell15.CellStyle =style2;
            	    ICell cell16 = row7.CreateCell (6); cell16.CellStyle =style2;
            	    ICell cell17 = row7.CreateCell (7); cell17.CellStyle =style2;
            	    
            	    n++;
-           	    IRow row8=sheet.CreateRow(n +2);
+           	              	    
+           	    IRow row8=sheet.CreateRow(n +3);
            	    row8.Height =21*20 ;
            	    ICell cell20 = row8.CreateCell (0); cell20.CellStyle =style2;
            	    ICell cell21 = row8.CreateCell (1); cell21.SetCellValue("其中:记  账");cell21.CellStyle =style2;
            	    ICell cell22 = row8.CreateCell (2); cell22.CellStyle =style2;
            	    ICell cell23 = row8.CreateCell (3); cell23.CellStyle =style2;
-           	    ICell cell24 = row8.CreateCell (4); cell24.SetCellValue(jizhang.ToString ());cell24.CellStyle =style2;
+           	    ICell cell24 = row8.CreateCell (4); cell24.CellStyle =style2;
+           	    if (jizhang  != 0)
+           	    {cell24.SetCellValue(string.Format ("{0:#0.00}",jizhang ));}
+           	    else
+           	    {cell24.SetCellValue("");}
+           	    
            	    ICell cell25 = row8.CreateCell (5); cell25.CellStyle =style2;
            	    ICell cell26 = row8.CreateCell (6); cell26.CellStyle =style2;
            	    ICell cell27 = row8.CreateCell (7); cell27.CellStyle =style2;
            	    
            	    
                 n++;
-           	    IRow row9=sheet.CreateRow(n +2);
-           	    row8.Height =21*20 ;
+           	    IRow row9=sheet.CreateRow(n +3);
+           	    row9.Height =21*20 ;
            	    ICell cell30 = row9.CreateCell (0); cell30.CellStyle =style2;
            	    ICell cell31 = row9.CreateCell (1); cell31.SetCellValue("      已付款");cell31.CellStyle =style2;
            	    ICell cell32 = row9.CreateCell (2); cell32.CellStyle =style2;
            	    ICell cell33 = row9.CreateCell (3); cell33.CellStyle =style2;
-           	    ICell cell34 = row9.CreateCell (4); cell34.SetCellValue(yifukuan .ToString ());cell34.CellStyle =style2;
+           	    ICell cell34 = row9.CreateCell (4); cell34.CellStyle =style2;
+           	    if (yifukuan != 0)
+           	    {cell34.SetCellValue(string.Format ("{0:#0.00}",yifukuan));}
+           	    else
+           	    {cell34.SetCellValue("");}
+           	   
+           	    
+           	    
            	    ICell cell35 = row9.CreateCell (5); cell35.CellStyle =style2;
            	    ICell cell36 = row9.CreateCell (6); cell36.CellStyle =style2;
            	    ICell cell37 = row9.CreateCell (7); cell37.CellStyle =style2;
