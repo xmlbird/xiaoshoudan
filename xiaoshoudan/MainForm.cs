@@ -92,10 +92,21 @@ namespace xiaoshoudan
 					
 			DataHelper helper =new DataHelper (label1 .Text.Trim () );
 	       helper.open ();
-	       string str2 = "select distinct name from [sheet1$]";
+	       string str2 = "select distinct name from [Sheet1$]";
 	       OleDbDataReader reader = helper .dataread (str2);
+	       
+	       
+	       
+	       int i1 = 0; decimal zhj = 0; int k = 0;
+	       
 	       while(reader .Read ())
-	       {      	
+	       {  
+	       	if (reader[0].ToString() =="")
+	       	{
+	       		continue  ;
+	       	}
+	       	
+	       	i1 ++;
 	       	DataHelper helper1 = new DataHelper(label1 .Text .Trim());
 	       	helper1.open ();
 	       	string str3 ="select * from [sheet1$] where name = '"+ reader[0].ToString()+"' order by date ";
@@ -103,6 +114,9 @@ namespace xiaoshoudan
 	       	OleDbDataReader reader1= helper1.dataread (str3);
 	        	
 	       	HSSFWorkbook workbook =new HSSFWorkbook();
+	       	
+	      
+	       	
 	       	ISheet sheet = workbook.CreateSheet(reader[0].ToString ().Trim () );
 	      	
 	       sheet.SetColumnWidth(0,  (int)((5.83+0.78) *256));
@@ -117,7 +131,7 @@ namespace xiaoshoudan
 	       IRow row = sheet.CreateRow(0);
            ICell cell=row.CreateCell(0);	
             row.Height =41*20;
-            cell.SetCellValue("销售单");
+            cell.SetCellValue("永成通信销售单");
            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 7));
            ICellStyle style=workbook .CreateCellStyle ();
            style.VerticalAlignment =VerticalAlignment .CENTER ;
@@ -185,7 +199,10 @@ namespace xiaoshoudan
            
            
            int n=0; int sl = 0; decimal hj=0; decimal jizhang=0; decimal yifukuan= 0;
-            while(reader1.Read ()){
+           
+
+           while(reader1.Read ()){
+           	
            	IRow row2=sheet.CreateRow(n + 3);
            	row2.Height =21*20 ;
            	int a1 = 0; decimal  a2 = 0; decimal  a3 = 0;
@@ -210,6 +227,9 @@ namespace xiaoshoudan
            	jizhang  = jizhang  + a2;
            	yifukuan =yifukuan + a3;
            	
+           	zhj =zhj + Convert.ToDecimal (reader1[4]);
+           	
+           	
            	//将一条记录内容放入数组
                        string[] strarray=new string[8];
                        strarray[0]=(n+1).ToString ().Trim ();
@@ -230,9 +250,9 @@ namespace xiaoshoudan
                   }
                   
                   n++;
-                 
+                  
                   }
-                
+           k=k+n;
                  hj= jizhang + yifukuan ;
                 IRow row7=sheet.CreateRow(n +3);
            	    row7.Height =21*20 ;
@@ -285,12 +305,15 @@ namespace xiaoshoudan
 		                fs.Close ();
            
 		                helper1.close ();
-           
-                           	
-	       }
+
+           }
 	       
 	       helper .close ();
 	       	
+	       
+	       string str4 = string.Format ("一共{0}条记录，{1}名客户，总金额{2}元。",k,i1,zhj);
+		   AboutFile .WriteFiles (str1+"\\1.txt",str4);
+	       
 	       	MessageBox .Show("已成功生成完毕,文件位于文件夹\n" + str1 + "\\" );
 	    }
 		

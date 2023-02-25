@@ -16,6 +16,8 @@ namespace xiaoshoudan
 	/// </summary>
 	public static class AboutFile
 	{
+		
+		//判断一个文件是否被打开
 		public static bool isFileLocked(string pathName)
         {
             try
@@ -35,5 +37,45 @@ namespace xiaoshoudan
             }
             return false;
         }
+	
+	
+	
+	//判断是否为空文件夹
+	
+	public static bool isEmptyFolder(string str1)
+	{
+	    if (Directory.GetDirectories(str1 + "\\").Length > 0 || Directory.GetFiles(str1+ "\\").Length > 0)
+			{
+	
+			return false ;
+			}
+	    return true;
 	}
+
+    //创建文件并写入内容
+	public static void WriteFiles(string str,string str1)
+    {
+		
+       if (!File.Exists(str))
+            {
+               //没有则创建这个文件
+                FileStream fs1 = new FileStream(str, FileMode.Create, FileAccess.Write);//创建写入文件 
+               //设置文件属性为隐藏
+                //File.SetAttributes(@"c:\\users\\administrator\\desktop\\webapplication1\\webapplication1\\testtxt.txt",  FileAttributes.System );    
+                StreamWriter sw = new StreamWriter(fs1);
+                sw.Write(str1);//开始写入值
+                sw.Close();
+                fs1.Close();
+               
+            }
+
+      }
+	
+	
+	
+	
+	
+	}
+
+
 }

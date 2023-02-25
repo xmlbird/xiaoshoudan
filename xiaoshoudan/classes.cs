@@ -208,24 +208,12 @@ static class  DataExec
 
 
 
-//md5加密类
-public class md5c{
 
-	public  static string MD5Create(string STR) //STR为待加密的string
-             {
-            string pwd = "";
-            //pwd为加密结果
-            MD5 md5 = MD5.Create();
-            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(STR));
-            //这里的UTF8是编码方式，你可以采用你喜欢的方式进行，比如UNcode等等
-            for (int i = 0; i < s.Length; i++)
-            {
-                pwd = pwd + s[i].ToString();
-            }
-            return pwd;
-        }
 
-}
+
+
+
+
 
 
 
@@ -399,6 +387,54 @@ private static string GetCharSpellCode(string CnChar) {
 　　return ("?");
  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
